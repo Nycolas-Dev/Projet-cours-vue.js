@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <title>Le projet top secret</title>
+</head>
+
+<body>
+    <div id="app">
+        <main>
+            <section>
+                <div v-if="step === null">
+                    <h2>Bienvenue sur notre projet !</h2>
+                    <p>Choisissez votre personnage<p>
+                    <button v-on:click="sendChoice(0), pickCharacter(0)">Billy l'homme moyen</button>
+                    <button v-on:click="sendChoice(0), pickCharacter(1)">Jeannot le gymnaste retraité</button>
+                    <button v-on:click="sendChoice(0), pickCharacter(2)">Jacqueline la bombe nucléaire</button>
+                    <button v-on:click="sendChoice(0), pickCharacter(3)">Martine la geek</button>
+                    <button class="apache" v-on:click="sendChoice(0), pickCharacter(4)"></button>
+                </div>
+                
+                <h1 v-if="step !== null">La vengance de {{ currentCharacter.name }}</h1>
+
+                <div v-if="step === 0">
+                    <p>Vous allez incarner un jeune marin faisant ses premiers pas dans la marine.</p>
+                    <p>A peine arrivé à Shells Town, le Colonel Morgan vous accueil de manière un peu brutal. Vous devez tout de suite faire des tâches.</p>
+                    <button v-on:click="sendChoice(1)">Eplucher les patates</button>
+                    <button v-on:click="sendChoice(2)">Souquer les artimuses</button>
+                    <button v-on:click="sendChoice(3)">Cirer les pompes du Colonel</button>
+                </div>
+                
+                
+                    <div v-if="step === 1">
+                        <p>Vous décidez d'éplucher les patates. Le Colonel juge votre découpe avec dédain.</p>
+                        <button v-on:click="sendChoice(1.1)">Cracher dans la gamelle</button>
+                        <button v-on:click="sendChoice(1.2)">S'appliquer plus</button>
+                    </div>
+                    
+                        <div v-if="step === 1.1">
+                        <p>Vous crachez un bon gros molard dans la gamelle, le Colonel Morgan vous regarde avec rage. Un combat se lance.</p>
+                        <button v-on:click="sendChoice(1.11), compareStat(currentCharacter.strength)"> Fight !</button>
+                        </div>
+
+                        <div v-if="step === 1.11">
+                            <div v-if="rollSuccess === true">
+                                <p>Vous avez fait : {{ roll }}</p>
+                                <p>Le Colonel vous saute dessus, mais vous arrivez à vous débattre. Vous lui assénez un coup sur la tête, il titube et tombe à terre.</p>
+                                <button v-on:click="sendChoice(1.111)">Sortir du bâtiment</button>
+                            </div>
+                            <div v-if="rollSuccess === false">
+                                <p>Vous avez fait : {{ roll }}</p>
+                                <p>Le Colonel vous saute dessus, vous essayez de résister mais il vous brise la nuque sans difficulté.</p>
+                                <button v-on:click="sendChoice(99)">MORT</button>
+                            </div>
+                        </div>
+
+                                <div v-if="step === 1.111">
+                                    <p>Malheureusement vous quittez la marine. Vous décidez de choisir une autre voie :</p>
+                                    <button v-on:click="sendChoice(1.1111)">Se reconvertir en Ninja pour devenir Hogake.</button>
+                                    <button v-on:click="sendChoice(1.2111)">Commencer une carrière dans le gaming.</button>
+                                    <button v-on:click="sendChoice(1.3111)">Sombrer dans l'alcool parce que la vie cette sale race !</button>
+                                </div>
+
+                                <div v-if="step === 1.1111">
+                                    <p>Des années plus tard, vous êtes devenu le plus grand de tout les Hokage et vous lancer un assaut sur la zone 51.</p>
+                                    <button v-on:click="sendChoice(1.11111)">Fin.</button>
+                                </div>
+
+                                <div v-if="step === 1.11111">
+                                    <video autoplay controls width='500'>
+                                        <source src="./resources/video/narutorun.mp4" type="video/mp4">
+                                    </video>
+                                    <p>Vous avez débloqué le succès "SAUVER E.T"</p>
+                                </div>
+
+                                <div v-if="step === 1.2111">
+                                    <video autoplay controls width='500'>
+                                        <source src="./resources/video/cetaitsur.mp4" type="video/mp4">
+                                    </video>
+                                    <p>Bien essayé ! Cependant vous êtes vraiment nul et vous perdez tout le temps.</p>
+                                    
+                                </div>
+
+                                <div v-if="step === 1.3111">
+                                    <video autoplay controls width='500'>
+                                        <source src="./resources/video/laviecettesalerace.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+
+                                
+                        
+                        <div v-if="step === 1.2">
+                        <p>Les patates sont maintenant parfaite, vous rivalisez presque avec Philippe Etchebest. Vous gagnez la patate.</p>
+                        <button v-on:click="sendChoice(10)">Passer à la suite.</button>
+                        </div>
+                
+                <div v-if="step === 2">
+                    <p>
+                        Vous décidez de souquer les artimuses. Cependant vous ne savez pas ce que ça veut dire, alors vous faites semblant de travailler. 
+                        </br> Le Colonel s'en aperçoit et vient vers vous à grandes enjambées.
+                    </p>
+                    <button v-on:click="sendChoice(2.1)">Se cacher dans la cale</button>
+                    <button v-on:click="sendChoice(2.2)">Assumer vos conneries</button>
+                </div>
+
+                <div v-if="step === 2.1">
+                    <p>
+                        Vous courez dans la cale le plus rapidement possible pour vous cachez, vous apercevez un sabre laser.
+                        </br> C'est exactement ce qu'il vous faut !
+                        </br> Le colonel arrive, vous engagez le combat pour tester votre nouvelle arme !
+                    </p>
+                    <button v-on:click="sendChoice(2.11)"> Fight !</button>
+                </div>
+
+                <div v-if="step === 2.11">
+                    <img src="./resources/image/catlaser.gif">
+                    <p>Vous vous lancez sur le colonel, tenant votre sabre laser de vos deux mains, et vous le tuez en un coup de cuillère à pot. 
+                        Vous lâchez le sabre laser en criant victoire, et le sabre traverse la coque du bateau. Le bateau commence à couler, et ni vous 
+                        ni l'équipage n'arrivez à combler la fuite.
+                        Vous mourrez noyé avec le reste de vos camarades, au beau milieu de l'océan Atlantique.
+                        
+                    </p>
+                    <button v-on:click="sendChoice(2.111)">FIN</button>
+                </div>
+
+                <div v-if="step === 2.111">
+                    <audio autoplay src="./resources/music/sous-l'ocean.ogg"></audio>
+                    <img src="resources/image/crabe.jpg" width="500"></img>
+                    <p>Vous avez débloqué le succès "SOUS L'OCEAN"</p>
+                </div>
+
+                <div v-if="step === 2.2">
+                    <p>
+                        Une grande discussion avec le Colonel est en cours. Très étrangement, il se montre compréhensif et vous fait un bisou.
+                    </p>
+                    <button v-on:click="sendChoice(2.21)">Rougir</button>
+                    <button v-on:click="sendChoice(2.22)">Promettre de travailler dur</button>
+                </div>
+
+                <div v-if="step === 2.21">
+                    <p>
+                        Les mois passent, vous vous rapprochez du Colonel. Une belle histoire d'amour se créer. Vous connaissez la suite : "Ils vécurent heureux et eurent beaucoup d'enfants."
+                    </p>
+                    <button v-on:click="sendChoice(2.211)">FIN</button>
+                </div>
+
+                    <div v-if="step === 2.211">
+                        <audio autoplay src="./resources/music/amour.m4a"></audio>
+                        <img src="resources/image/amour.jpg" width="500"></img>
+                        <p>
+                            Vous avez débloqué le succès "AMOUR POUR LA VIE"
+                        </p>
+                    </div>
+
+                <div v-if="step === 2.22">
+                    <p>
+                        Le Colonel Morgan vous laisse tranquille pour cette fois.
+                    </p>
+                    <button v-on:click="sendChoice(10)">Passer la suite</button>
+                </div>
+                
+                <div v-if="step === 3">
+                    <p>
+                        Vous décidez de cirer les pompes du capitaine. Vous savez que c'est un homme qui aime briller, et en tant que nouveau, vous feriez mieux d'assouvir ses désirs
+                        </br> Cependant vous n'êtes pas un expert en la matière, et en vous affairant, vous renversez le pot de cirage sur son pied gauche.
+                        </br> Le Colonel bondit, prêt à vous en coller une.
+                    </p>
+                    <button v-on:click="sendChoice(3.1), compareStat(currentCharacter.agility)">Vous tentez d'esquivez</button>
+                    <button v-on:click="sendChoice(3.2)">Vous êtes tétanisé par la peur</button>
+                </div>
+
+                    <div v-if="step === 3.1">
+                        <div v-if="rollSuccess === true">
+                            <p>Vous avez fait : {{ roll }}</p>
+                            <p>Vous arrivez à esquiver le Colonel. Stupéfait par votre exploit, il vous félicite et vous laisse tranquille pour le moment.</p>
+                            <button v-on:click="sendChoice(10)">Passer à la suite</button>
+                        </div>
+                        <div v-if="rollSuccess === false">
+                            <p>Vous avez fait : {{ roll }}</p>
+                            <p>Le Colonel frappe de toutes ses forces. Cette grosse patate de forain vous mets KO pour le reste de votre vie.</p>
+                            <button v-on:click="sendChoice(99)">MORT</button>
+                        </div>
+                    </div>
+
+                    <div v-if="step === 3.2">
+                        <p>
+                            Le Colonel s'élance mais s'arrête juste avant de vous toucher, il s'en va ensuite mort de rire. 
+                            </br> Votre ego en prend un coup, vous avez le seum.
+                        </p>
+                        <button v-on:click="sendChoice(10)">Passer à la suite</button>
+                    </div>
+                    
+                    <div v-if="step === 10">
+                        <p>Plusieurs semaines passent à juste faire des corvées. Au moment où vous alliez abandonner, le Colonel vous assigne sur son navire.</p>
+                        <p>Enfin de l'action ! Et vous n'êtes pas déçu car quelques jours après des pirates attaquent !</p>
+                        <p>Vous devez prendre une décision.</p>
+                        <button v-on:click="sendChoice(11)">Aller se battre sur le pont contre les pirates</button>
+                        <button v-on:click="sendChoice(12)">Partir se cacher dans la cale</button>
+                        <button v-on:click="sendChoice(13)">Demander un accord avec les pirates</button>
+                    </div>
+
+                    <div v-if="step === 11">
+                        <p></p>
+                        <button v-on:click="sendChoice()">Work In Progress</button>
+                    </div>
+
+                    <div v-if="step === 12">
+                        <p>Vous courrez dans la cale en entendant des coups de feu juste derrière vous.</br>
+                            Cependant il y a un truc étrange, vous sentez de l'eau sous vos pieds ! Vous faites le tour de la cale quand vous apercevez un trou dans le navire !
+                        </p>
+                        <button v-if="checkItem('Patate')" v-on:click="sendChoice(12.1)">Utiliser la patate pour boucher le trou.</button>
+                        <button v-else v-on:click="sendChoice(12.2)">Vous n'avez rien pour boucher le trou.</button>
+                    </div>
+
+                        <div v-if="step === 12.2">
+                            <p>Vous essayez tant bien que mal mais l'eau s'engouffre. Quelques minutes après, le navire coûle, vous êtes MORT.</p>
+                            <button v-on:click="sendChoice(2.111)">FIN</button>
+                        </div>
+
+                    <div v-if="step === 12.1">
+                        <p>Vous placez la patate dans le trou, et comme par miracle elle fait exactement la bonne taille. Bravo vous avez sauvé le navire !</p>
+                        <button v-on:click="sendChoice()">Work In Progress</button>
+                    </div>
+
+                    <div v-if="step === 13">
+                        <p>Une idée surgit dans votre esprit, avec votre charisme naturel vous allez implorer au capitaine pirate de vous laisser partir.</p>
+                        <p>Un des pirates accepte de vous emmenez devant leur capitaine.</p>
+                        <button v-on:click="sendChoice(13.1), compareStat(currentCharacter.charisma)">Trouver des arguments</button>
+                    </div>
+
+                    <div v-if="step === 13.1">
+                        <div v-if="rollSuccess === true">
+                            <p>Vous avez fait : {{ roll }}</p>
+                            <p>Bravo ! Vous êtes un négociant hors pair et parvenez à obtenir votre liberté en échange d'un peu d'or.</p>
+                            <button v-on:click="sendChoice(13.11)">Retourner sur votre navire</button>
+                        </div>
+                        <div v-if="rollSuccess === false">
+                            <p>Vous avez fait : {{ roll }}</p>
+                            <p>Devant le capitaine vous perdez vos moyens, il se moque et vous jète par dessus bord.</p>
+                            <p>Les pirates massacrent votre équipage et s'en vont tranquillement pendant que vous vous noyez.</p>
+                            <button v-on:click="sendChoice(99)">FIN</button>
+                        </div>
+                    </div>
+
+                    <div v-if="step === 13.11">
+                        <p></p>
+                        <button v-on:click="sendChoice()">WORK IN PROGRESS</button>
+                    </div>
+
+
+                <div v-if="step === 4">
+                    <div v-if="rollSuccess === true">
+                        <p>Vous avez fait : {{ roll }}</p>
+                        <p>Win</p>
+                    </div>
+                    <div v-if="rollSuccess === false">
+                        <p>Vous avez fait : {{ roll }}</p>
+                        <p>Lose</p>
+                    </div>
+                </div>
+                <div v-if="step === 99">
+                    <video autoplay controls width='500'>
+                        <source src="./resources/video/mort.mp4" type="video/mp4">
+                    </video>
+                    <p>
+                        Après la mort, il n'y a rien, et la mort elle-même n'est rien.
+                    </p>
+                </div>
+            </section>    
+                
+            
+            
+            <aside v-if="step !== null">
+                <h2>Controls</h2>
+                <button v-if="step !== 0" v-on:click="sendChoice(0)">Revenir au début de l'histoire</button>
+                <button v-if="step !== 0" v-on:click="goBack">Revenir au choix précédent</button>
+                <button v-else v-on:click="goBack">Revenir au choix de personnage</button>
+                <p>Page : {{ step }}</p>
+                <button v-on:click="displayFooter()">Afficher l'inventaire et les succès</button>
+                <p>Personnage : {{currentCharacter.name}}<p>
+                <p>Statistiques:<p>
+                <ul>
+                    <li>Force : {{currentCharacter.strength}}</li>
+                    <li>Endurance : {{currentCharacter.stamina}}</li>
+                    <li>Agilité : {{currentCharacter.agility}}</li>
+                    <li>Charisme : {{currentCharacter.charisma}}</li>
+                    <li>Intelligence : {{currentCharacter.intelligence}}</li>
+                </ul>
+                
+            </aside>
+        </main>
+
+        
+
+        <div id="footer" class="footer">
+            <inventory :list="listitems"></inventory>
+            <success :listsuc="listsuccess"></success>
+        </div>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="module" src="js/script.js"></script>
+</body>
+</html>
